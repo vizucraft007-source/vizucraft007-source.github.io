@@ -1,631 +1,152 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="VizuCraft — дизайн, сайти, моушн, AI-відео та UI-кіти для Unity. Портфоліо й контакти.">
-<title>VizuCraft — портфоліо з Маестро</title>
+<title>VizuCraft — Game UI kits for Unity</title>
+<meta name="description" content="VizuCraft makes complete game UI kits for Unity: 9-sliced sprites, ready prefabs, animated components, demo scenes and SVG sources.">
+<meta property="og:title" content="VizuCraft — Game UI kits for Unity">
+<meta property="og:description" content="Complete game UI kits for Unity, each in its own consistent style.">
+<meta property="og:image" content="img/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --paper:#f7f7f2; --paper2:#eeefe8; --ink:#141514; --ink2:#5d6058; --rule:#e2e3db;
-  --night:#0f0e15; --night2:#17151f; --nl:#ffffff14; --nt:#ecebf3; --nt2:#9a97a8;
-  --lime:#c8f53a; --lime2:#e6ff3d; --cyan:#7fe7ff; --violet:#9b8cff; --indigo:#5b4dff;
-  --grad:linear-gradient(90deg,#b5f51a,#7fe7ff 55%,#9b8cff);
-  --display:"Manrope",system-ui,sans-serif; --sans:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0c15;--panel:#15131f;--line:#262336;--ink:#f4f3fa;--ink2:#a7a2bf;--lime:#E6FF3D;--indigo:#5b4dff}
+*{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit}
-.mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
-.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(18px,4vw,56px)}
-
-/* ---------- nav ---------- */
-.nav{position:fixed;inset:0 0 auto;z-index:60;transition:background .3s,box-shadow .3s}
-.nav.solid{background:#f7f7f2e6;backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--rule)}
-.nav.dark{background:#0f0e15d9;box-shadow:0 1px 0 var(--nl);color:var(--nt)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-.02em;text-decoration:none}
-.vc{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#b5f51a 0%,#7fa81e 38%,#3a3c38 72%,#1a1a1a 100%);display:grid;place-items:center;color:#fff;font-weight:800;font-size:12.5px;letter-spacing:-.04em;text-shadow:0 1px 2px #0006}
-.dots{display:flex;gap:6px;align-items:center}
-.dots a{width:28px;height:4px;border-radius:4px;background:currentColor;opacity:.18;transition:opacity .3s,width .3s}
-.dots a.on{opacity:1;width:40px;background:var(--lime)}
-@media(max-width:820px){.dots{display:none}}
-.cta-sm{padding:9px 16px;border-radius:10px;background:var(--ink);color:#fff;font-size:13px;font-weight:600;text-decoration:none}
-.nav.dark .cta-sm{background:var(--lime);color:var(--ink)}
-
-/* ---------- sections ---------- */
-section{position:relative;min-height:100vh;display:flex;align-items:center;padding:110px 0 90px}
-section.dark{background:radial-gradient(900px 600px at var(--gx,80%) 30%,#2b2145aa,transparent 70%),var(--night);color:var(--nt)}
-section.light::before,section.dark::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(currentColor 1px,transparent 1.2px);background-size:24px 24px;opacity:.07;-webkit-mask:linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent);mask:linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;width:100%}
-.row.flip .txt{order:2}
-.txt{max-width:540px;position:relative;z-index:2}
-.eyebrow{display:flex;align-items:center;gap:10px;color:var(--ink2)}
-.dark .eyebrow{color:var(--nt2)}
-.eyebrow b{font-weight:500;color:var(--ink);background:var(--lime);padding:3px 7px;border-radius:5px}
-h2{font-family:var(--display);font-weight:800;font-size:clamp(34px,4.4vw,60px);line-height:1;letter-spacing:-.04em;margin:18px 0 18px}
-h2 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.light h2 em{background:linear-gradient(90deg,#5b8a00,#0b8fb0 60%,#5b4dff);-webkit-background-clip:text;background-clip:text}
-.lead{font-size:17px;line-height:1.6;color:var(--ink2)}
-.dark .lead{color:var(--nt2)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.chips span{font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--rule);background:#fff}
-.dark .chips span{border-color:var(--nl);background:#ffffff08}
-.show{margin-top:26px;display:inline-flex;align-items:center;gap:10px;padding:13px 18px 13px 14px;border-radius:12px;background:var(--ink);color:#fff;font-weight:600;font-size:14px;transition:transform .2s,box-shadow .2s}
-.show:hover{transform:translateY(-2px);box-shadow:0 12px 30px -12px #0008}
-.dark .show{background:var(--lime);color:var(--ink)}
-.show i{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 12%,#8a85a8 40%,#1d1a2a 100%);box-shadow:0 0 0 2px #ffffff22}
-.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:28px;max-width:540px}
-.thumbs button{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px var(--rule);transition:transform .25s}
-.dark .thumbs button{box-shadow:0 0 0 1px var(--nl)}
-.thumbs button:hover{transform:translateY(-3px)}
-.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
-.thumbs .pl{position:absolute;right:6px;bottom:6px;width:20px;height:20px;border-radius:50%;background:var(--lime);display:grid;place-items:center}
-.thumbs .pl::after{content:"";border-left:6px solid #141514;border-top:4px solid transparent;border-bottom:4px solid transparent;margin-left:2px}
-.thumbs .more{display:grid;place-items:center;font-family:var(--mono);font-size:12px;background:var(--paper2)}
-.dark .thumbs .more{background:#ffffff0a}
-.dock{height:60vh;position:relative}
-@media(max-width:860px){.row,.row.flip{grid-template-columns:1fr}.row.flip .txt{order:0}.dock{height:22vh}.thumbs{grid-template-columns:repeat(4,1fr)}}
-
-/* hero */
-#hero h1{font-family:var(--display);font-weight:800;font-size:clamp(44px,6.6vw,96px);line-height:.95;letter-spacing:-.05em;margin:20px 0 24px}
-#hero h1 em{font-style:normal;background:linear-gradient(90deg,#5b8a00,#0b8fb0 60%,#5b4dff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.stats{display:flex;gap:30px;margin-top:34px;flex-wrap:wrap}
-.stats b{display:block;font-family:var(--display);font-size:28px;letter-spacing:-.03em}
-.stats span{font-size:12.5px;color:var(--ink2)}
-.scrollhint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);color:var(--ink2);display:flex;flex-direction:column;align-items:center;gap:8px}
-.scrollhint i{width:1px;height:38px;background:linear-gradient(var(--ink2),transparent);animation:sh 1.8s infinite}
-@keyframes sh{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-
-/* contact */
-.clist{display:flex;flex-direction:column;border-top:1px solid var(--nl);margin-top:30px}
-.clist a{display:flex;justify-content:space-between;padding:18px 4px;border-bottom:1px solid var(--nl);text-decoration:none;font-size:17px;transition:padding .25s,color .25s}
-.clist a span{font-family:var(--mono);font-size:11px;color:var(--nt2)}
-.clist a:hover{padding-left:12px;color:var(--lime)}
-
-/* ---------- MAESTRO ---------- */
-#m{position:fixed;left:0;top:0;width:110px;height:110px;margin:-55px 0 0 -55px;z-index:50;will-change:transform;cursor:pointer;-webkit-tap-highlight-color:transparent}
-#m .body{position:absolute;inset:0;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
-#m svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 18px 18px #0f0e1555)}
-#m .glow{position:absolute;left:50%;top:84%;width:70px;height:22px;margin-left:-35px;border-radius:50%;background:radial-gradient(closest-side,#c8f53a88,transparent);filter:blur(4px);animation:thr 1.4s ease-in-out infinite}
-@keyframes thr{50%{transform:scaleX(.8);opacity:.6}}
-#m .spark{position:absolute;left:50%;top:86%;width:4px;height:4px;border-radius:50%;background:var(--lime);opacity:0;animation:sp 1.6s linear infinite}
-#m .spark:nth-child(3){animation-delay:.5s;margin-left:-12px}#m .spark:nth-child(4){animation-delay:1s;margin-left:10px}
-@keyframes sp{0%{opacity:0;transform:translateY(0) scale(1)}15%{opacity:.9}100%{opacity:0;transform:translateY(34px) scale(.3)}}
-#m .tag{position:absolute;left:50%;top:104%;transform:translateX(-50%);font-family:var(--mono);font-size:9.5px;letter-spacing:.32em;color:#8b88a0;white-space:nowrap;opacity:.9}
-.fin{transform-box:fill-box;transform-origin:50% 50%;transition:transform .6s cubic-bezier(.3,1.5,.5,1)}
-#m.talk .finL{transform:translateX(-3px) rotate(-8deg)}#m.talk .finR{transform:translateX(3px) rotate(8deg)}
-#m.project .finL{transform:translateX(-9px) scaleY(1.25)}#m.project .finR{transform:translateX(9px) scaleY(1.25)}
-.lens{transition:transform .25s ease-out}
-.blades{transform-box:fill-box;transform-origin:50% 50%;transition:transform .5s}
-#m.project .blades{transform:rotate(60deg) scale(.55)}
-.pupil{transform-box:fill-box;transform-origin:50% 50%;transition:transform .2s}
-#m.blink .lid{transform:scaleY(1)}
-.lid{transform-box:fill-box;transform-origin:50% 50%;transform:scaleY(0);transition:transform .09s}
-#m.project .pupil{transform:scale(1.35)}
-#m:hover .body{transform:scale(1.07)}
-
-/* speech bubble */
-@media(max-width:860px){#bub{max-width:260px;font-size:13px}}
-#bub{position:fixed;left:0;top:0;z-index:51;max-width:300px;padding:13px 15px 14px;border-radius:14px;background:#15131ee6;color:var(--nt);box-shadow:0 0 0 1px #7fe7ff40,0 0 30px -8px #7fe7ff66,0 20px 40px -20px #000;font-size:14px;line-height:1.5;opacity:0;transform:translateY(6px) scale(.96);transition:opacity .25s,transform .25s;pointer-events:none;backdrop-filter:blur(6px)}
-#bub.on{opacity:1;transform:none}
-#bub .who{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--cyan);margin-bottom:5px;display:flex;align-items:center;gap:6px}
-#bub .who::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px var(--lime)}
-#bub::after{content:"";position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(0deg,#7fe7ff0a 0 1px,transparent 1px 3px);pointer-events:none}
-
-/* ---------- HOLOGRAM ---------- */
-#beam{position:fixed;inset:0;width:100%;height:100%;z-index:48;pointer-events:none;opacity:0;transition:opacity .35s}
-#beam.on{opacity:1}
-#holo{position:fixed;z-index:49;left:0;top:0;width:820px;height:560px;display:flex;flex-direction:column;border-radius:18px;color:var(--nt);
-  background:linear-gradient(160deg,#1a1730f2,#0d0c16f5);box-shadow:0 0 0 1px #7fe7ff55,0 0 60px -10px #7fe7ff55,inset 0 0 60px #7fe7ff10,0 40px 80px -30px #000;
-  opacity:0;pointer-events:none;transform-origin:var(--ox,0% 0%);transform:scale(.2,.02);transition:transform .55s cubic-bezier(.2,.9,.2,1),opacity .2s,width .45s cubic-bezier(.2,.9,.2,1),height .45s cubic-bezier(.2,.9,.2,1),left .45s,top .45s}
-#holo.on{opacity:1;pointer-events:auto;transform:none}
-#holo.on.flick{animation:flick .5s steps(1) 1}
-@keyframes flick{0%{opacity:.2}10%{opacity:1}18%{opacity:.4}26%{opacity:1}40%{opacity:.7}48%{opacity:1}}
-#holo::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:3;background:repeating-linear-gradient(0deg,#7fe7ff09 0 1px,transparent 1px 3px)}
-#holo::after{content:"";position:absolute;left:0;right:0;height:80px;top:-80px;pointer-events:none;z-index:3;background:linear-gradient(transparent,#7fe7ff1c,transparent);animation:sweep 4s linear infinite}
-@keyframes sweep{to{top:100%}}
-.hbar{display:flex;align-items:center;gap:12px;padding:12px 14px 10px 16px;border-bottom:1px solid #7fe7ff22;position:relative;z-index:4}
-.hbar .t{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hbar .k{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--cyan);white-space:nowrap}
-.hbar .sp{flex:1}
-.hbtn{height:30px;min-width:30px;padding:0 10px;border-radius:8px;border:1px solid #7fe7ff33;font-size:12px;color:var(--nt);display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background .2s,border-color .2s}
-.hbtn:hover{background:#7fe7ff1a;border-color:#7fe7ff77}
-.hbtn.on{background:var(--lime);color:#141514;border-color:var(--lime)}
-.sizes{display:none;gap:4px}
-#holo.site .sizes{display:flex}
-.stage{position:relative;flex:1;min-height:0;margin:12px;border-radius:12px;overflow:hidden;background:#07060c;z-index:2}
-.stage img,.stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
-.stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
-.stage .bg{position:absolute;inset:-20px;background-size:cover;background-position:center;filter:blur(24px) brightness(.45);transform:scale(1.1)}
-#rain{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none}
-.snd{position:absolute;left:12px;bottom:12px;z-index:6;display:none}
-#holo.vid .snd{display:inline-flex;background:#0f0e15cc}
-.nav2{position:absolute;top:50%;z-index:6;width:40px;height:40px;margin-top:-20px;border-radius:50%;background:#0f0e15cc;border:1px solid #7fe7ff44;display:grid;place-items:center;font-size:18px;transition:background .2s}
-.nav2:hover{background:#7fe7ff33}
-.nav2.p{left:10px}.nav2.n{right:10px}
-#holo.site .nav2{display:none}
-.rail{display:flex;gap:8px;padding:0 12px 12px;overflow-x:auto;scrollbar-width:thin;position:relative;z-index:4}
-.rail button{flex:none;width:64px;height:46px;border-radius:7px;overflow:hidden;opacity:.5;box-shadow:0 0 0 1px #7fe7ff33;transition:opacity .2s,box-shadow .2s;position:relative}
-.rail button.on{opacity:1;box-shadow:0 0 0 2px var(--lime)}
-.rail img{width:100%;height:100%;object-fit:cover}
-.cap{padding:0 16px 12px;font-size:13px;color:var(--nt2);position:relative;z-index:4;min-height:18px}
-@media(max-width:760px){.hbar .k{display:none}.sizes{display:none!important}}
-
-/* reduced motion */
-@media(prefers-reduced-motion:reduce){#holo::after,#m .glow,#m .spark{animation:none}}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;z-index:10;background:rgba(13,12,21,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:20px;text-decoration:none;display:flex;gap:10px;align-items:center}
+.logo b{background:var(--lime);color:var(--bg);border-radius:8px;font-size:13px;padding:4px 7px}
+nav a{color:var(--ink2);text-decoration:none;margin-left:28px;font-weight:500;font-size:15px}
+nav a:hover{color:var(--ink)}
+.hero{padding:96px 0 72px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:-40% -10% auto 40%;height:700px;background:radial-gradient(closest-side,rgba(91,77,255,.35),transparent),radial-gradient(closest-side at 70% 80%,rgba(255,61,127,.22),transparent);pointer-events:none}
+.tag{display:inline-block;background:var(--lime);color:var(--bg);font-weight:600;font-size:13px;letter-spacing:.06em;border-radius:99px;padding:6px 14px}
+h1{font-size:clamp(44px,7vw,84px);line-height:1.02;font-weight:800;letter-spacing:-.03em;margin:22px 0 18px;max-width:900px}
+h1 span{color:var(--lime)}
+.lead{color:var(--ink2);font-size:20px;max-width:640px}
+.btns{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 24px;border-radius:12px;font-weight:600;text-decoration:none}
+.btn.main{background:var(--lime);color:var(--bg)}
+.btn.ghost{border:1px solid var(--line);color:var(--ink)}
+section{padding:72px 0}
+h2{font-size:clamp(30px,4vw,44px);font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
+.sub{color:var(--ink2);margin-bottom:36px;max-width:640px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s;text-align:left;color:inherit;font:inherit;padding:0}
+.card:hover,.card:focus-visible{transform:translateY(-4px);border-color:#4a4466;outline:none}
+.card img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.card .meta{padding:16px 18px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.card h3{font-size:19px;font-weight:700}
+.card p{color:var(--ink2);font-size:14px}
+.soon{font-size:12px;font-weight:600;color:var(--lime);border:1px solid rgba(230,255,61,.35);border-radius:99px;padding:3px 10px;white-space:nowrap}
+.feats{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.feat{border:1px solid var(--line);border-radius:16px;padding:22px;background:linear-gradient(180deg,#14121e,#100f18)}
+.feat h3{font-size:17px;margin-bottom:6px}
+.feat p{color:var(--ink2);font-size:15px}
+.contact{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:48px;display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
+.links a{display:flex;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--line);text-decoration:none;font-weight:500}
+.links a span{color:var(--ink2)}
+.links a:hover{color:var(--lime)}
+footer{color:var(--ink2);font-size:14px;padding:40px 0 56px;border-top:1px solid var(--line);margin-top:40px}
+.lb{position:fixed;inset:0;background:rgba(8,7,13,.94);display:none;align-items:center;justify-content:center;z-index:50;flex-direction:column;padding:24px}
+.lb.on{display:flex}
+.lb img{max-width:min(1280px,92vw);max-height:76vh;border-radius:12px}
+.lb .cap{margin-top:16px;color:var(--ink2)}
+.lb button{position:absolute;background:none;border:0;color:var(--ink);font-size:34px;cursor:pointer;padding:16px}
+.lb .x{top:10px;right:16px}.lb .p{left:10px;top:50%}.lb .n{right:10px;top:50%}
+@media(max-width:760px){nav a{margin-left:16px}.contact{grid-template-columns:1fr;padding:28px}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
-<header class="nav" id="nav"><div class="wrap">
-  <a class="brand" href="#hero"><span class="vc">VC</span>VizuCraft</a>
-  <nav class="dots" id="dots" aria-label="Розділи"></nav>
-  <a class="cta-sm" href="#contact">Написати</a>
+<header><div class="wrap">
+  <a class="logo" href="#"><b>VC</b>VizuCraft</a>
+  <nav><a href="#kits">Kits</a><a href="#inside">What's inside</a><a href="#contact">Contact</a></nav>
 </div></header>
 
-<!-- ============ SECTIONS ============ -->
-<section class="light" id="hero" data-dock="0.74,0.48" data-say="Привіт! Я Маестро. Проведу Вас роботами студії VizuCraft — гортайте вниз, а я покажу найцікавіше.">
-  <div class="wrap"><div class="row">
-    <div class="txt">
-      <div class="eyebrow mono"><b>VC</b> Креативна AI-студія · Україна</div>
-      <h1>Візуал, відео й сайти, що <em>продають</em></h1>
-      <p class="lead">Банери, рекламні ролики, мультфільми, анімація, сайти й автоматизація. Досвід керівника рекламного відділу плюс AI-інструменти: перший результат видно ще до старту.</p>
-      <div class="stats"><div><b>7</b><span>напрямів</span></div><div><b>10+</b><span>років у Photoshop</span></div><div><b>1–4 дні</b><span>типовий проєкт</span></div></div>
-    </div>
-    <div class="dock"></div>
-  </div></div>
-  <div class="scrollhint mono">гортайте<i></i></div>
-</section>
+<main>
+<div class="hero"><div class="wrap">
+  <span class="tag">GAME UI KITS FOR UNITY</span>
+  <h1>Menus that look <span>finished</span> from day one.</h1>
+  <p class="lead">VizuCraft makes complete game UI kits for Unity, each in its own consistent style — from cozy farming to dark fantasy and sci-fi.</p>
+  <div class="btns"><a class="btn main" href="#kits">See the kits</a><a class="btn ghost" href="#contact">Contact</a></div>
+</div></div>
 
-<section class="dark" id="banners" style="--gx:85%" data-dock="0.80,0.42" data-loop="1" data-say="Банери й креативи для реклами. Зупиніться на секунду — розгорну голограму з роботами.">
-  <div class="wrap"><div class="row">
-    <div class="txt">
-      <div class="eyebrow mono"><b>01</b> Банери · Meta Ads · сайти</div>
-      <h2>Креативи, на які <em>натискають</em></h2>
-      <p class="lead">Серії банерів під таргет, каталоги й маркетплейси: офер, ціна, бейджі й кнопка — все, щоб реклама приводила заявки, а не просто була красивою.</p>
-      <div class="chips"><span>1:1 · 4:5 · 9:16</span><span>Meta Ads</span><span>Анімовані банери</span><span>Каталоги</span></div>
-      <button class="show" data-open="banners"><i></i>Показати роботи</button>
-      <div class="thumbs" data-thumbs="banners"></div>
-    </div>
-    <div class="dock"></div>
-  </div></div>
-</section>
+<section id="kits"><div class="wrap">
+  <h2>Kits</h2>
+  <p class="sub">Each kit covers a full game flow: loading, main menu, HUD, inventory or shop, results, pause and settings. Click a kit to see more screens.</p>
+  <div class="grid" id="grid"></div>
+</div></section>
 
-<section class="light" id="video" data-dock="0.18,0.46" data-say="Тут відеореклама. Ролики грають прямо в голограмі — звук можна увімкнути.">
-  <div class="wrap"><div class="row flip">
-    <div class="txt">
-      <div class="eyebrow mono"><b>02</b> Відеореклама · Reels 9:16</div>
-      <h2>Ролики без зйомок, <em>з продажами</em></h2>
-      <p class="lead">Серії рекламних відео для техніки, оренди авто й меблів: сценарій, AI-сцени, 3D-пояснення продукту, музика, монтаж у кількох форматах і мовах.</p>
-      <div class="chips"><span>AI-відео</span><span>3D-пояснення</span><span>UA · PL</span><span>Монтаж</span></div>
-      <button class="show" data-open="video"><i></i>Увімкнути відео</button>
-      <div class="thumbs" data-thumbs="video"></div>
-    </div>
-    <div class="dock"></div>
-  </div></div>
-</section>
-
-<section class="dark" id="motion" style="--gx:20%" data-dock="0.80,0.52" data-say="Моушн і мультфільми — мої улюблені. Логотипи тут збираються з окремих деталей.">
-  <div class="wrap"><div class="row">
-    <div class="txt">
-      <div class="eyebrow mono"><b>03</b> Анімація · моушн · мультфільми</div>
-      <h2>Логотипи, що <em>оживають</em></h2>
-      <p class="lead">Анімація логотипів, 3D-збірка з кубиків для сайту, AI-мультфільми для дитячого каналу — від сценарію й персонажів до пісень і монтажу.</p>
-      <div class="chips"><span>Анімація лого</span><span>3D для сайту</span><span>Мультфільми</span><span>GIF</span></div>
-      <button class="show" data-open="motion"><i></i>Показати анімацію</button>
-      <div class="thumbs" data-thumbs="motion"></div>
-    </div>
-    <div class="dock"></div>
-  </div></div>
-</section>
-
-<section class="light" id="sites" data-dock="0.16,0.40" data-loop="1" data-say="А тепер сайти — живі, не скріни. Відкрию будь-який прямо тут, гортайте його всередині.">
-  <div class="wrap"><div class="row flip">
-    <div class="txt">
-      <div class="eyebrow mono"><b>04</b> Сайти · лендинги · анімація</div>
-      <h2>Зайдіть <em>всередину</em> сайтів</h2>
-      <p class="lead">Лендинги з анімацією на прокрутці, 3D та фізикою. Кожен сайт відкривається в голограмі — маленьким, середнім чи великим вікном, і його можна гортати.</p>
-      <div class="chips"><span>Лендинги</span><span>Three.js</span><span>WordPress · WooCommerce</span><span>Адаптив</span></div>
-      <button class="show" data-open="sites"><i></i>Відкрити сайт</button>
-      <div class="thumbs" data-thumbs="sites"></div>
-    </div>
-    <div class="dock"></div>
-  </div></div>
-</section>
-
-<section class="dark" id="apps" style="--gx:80%" data-dock="0.82,0.45" data-say="Програми й автоматизація: кабінети замовлень, парсинг, звіти. Нудна рутина — це моя робота.">
-  <div class="wrap"><div class="row">
-    <div class="txt">
-      <div class="eyebrow mono"><b>05</b> Програми · автоматизація · дані</div>
-      <h2>Рутина, яку <em>робить код</em></h2>
-      <p class="lead">Системи замовлень для малого бізнесу (Notion або власний веб-кабінет), парсинг маркетплейсів зі звітами в Excel, Telegram-боти й автопостинг.</p>
-      <div class="chips"><span>Веб-кабінети</span><span>Notion</span><span>Парсинг</span><span>Telegram-боти</span></div>
-      <button class="show" data-open="apps"><i></i>Показати кабінети</button>
-      <div class="thumbs" data-thumbs="apps"></div>
-    </div>
-    <div class="dock"></div>
-  </div></div>
-</section>
-
-<section class="light" id="smm" data-dock="0.18,0.50" data-say="Просування: таргет, ведення акаунтів, упаковка профілю. Тут більше досвіду, ніж картинок.">
-  <div class="wrap"><div class="row flip">
-    <div class="txt">
-      <div class="eyebrow mono"><b>06</b> SMM · таргет · упаковка</div>
-      <h2>Реклама, що веде <em>до заявки</em></h2>
-      <p class="lead">Досвід керівника рекламного відділу: таргет для виробника дверей і вікон та бренду зоотоварів, робота з CRM. Упаковка Instagram — від логотипа й брендбука до сітки постів.</p>
-      <div class="chips"><span>Таргет Meta</span><span>Ведення акаунтів</span><span>Упаковка профілю</span><span>Брендбук</span></div>
-      <button class="show" data-open="smm"><i></i>Показати упаковку</button>
-      <div class="thumbs" data-thumbs="smm"></div>
-    </div>
-    <div class="dock"></div>
-  </div></div>
-</section>
-
-<section class="dark" id="print" style="--gx:85%" data-dock="0.80,0.44" data-loop="1" data-say="Поліграфія й ілюстрації: календарі, візитки з гумором, казкові картинки для книг.">
-  <div class="wrap"><div class="row">
-    <div class="txt">
-      <div class="eyebrow mono"><b>07</b> Поліграфія · візитки · ілюстрації</div>
-      <h2>Те, що <em>тримають у руках</em></h2>
-      <p class="lead">Квартальні календарі для різних ніш, візитки в 12 арт-стилях і креативні концепти, AI-ілюстрації для дитячих книг і постерів.</p>
-      <div class="chips"><span>Календарі 2027</span><span>Візитки</span><span>Ілюстрації</span><span>Друк</span></div>
-      <button class="show" data-open="print"><i></i>Показати друк</button>
-      <div class="thumbs" data-thumbs="print"></div>
-    </div>
-    <div class="dock"></div>
-  </div></div>
-</section>
-
-<section class="light" id="contact" data-dock="0.78,0.40" data-say="Сподобалось? Напишіть задачу — покажемо прототип ще до старту роботи.">
-  <div class="wrap"><div class="row">
-    <div class="txt">
-      <div class="eyebrow mono"><b>08</b> Контакти</div>
-      <h2>Є задача? <em>Покажу прототип</em> до старту</h2>
-      <p class="lead">Напишіть, що потрібно: відповім із планом, термінами й першим ескізом.</p>
-      <div class="clist" style="border-color:var(--rule)">
-        <a href="mailto:vizu.craft.007@gmail.com" style="border-color:var(--rule)">vizu.craft.007@gmail.com <span style="color:var(--ink2)">EMAIL</span></a>
-        <a href="https://www.youtube.com/@VizuCraft007" target="_blank" rel="noopener" style="border-color:var(--rule)">YouTube · @VizuCraft007 <span style="color:var(--ink2)">КАНАЛ ↗</span></a>
-        <a href="https://github.com/vizucraft007-source" target="_blank" rel="noopener" style="border-color:var(--rule)">GitHub · vizucraft007-source <span style="color:var(--ink2)">КОД ↗</span></a>
-      </div>
-    </div>
-    <div class="dock"></div>
-  </div></div>
-</section>
-
-<!-- ============ MAESTRO ============ -->
-<div id="m" role="button" tabindex="0" aria-label="Маестро: показати роботи цього розділу">
-  <div class="body">
-    <div class="glow"></div><span class="spark"></span><span class="spark"></span><span class="spark"></span>
-    <svg viewBox="-60 -60 120 120" aria-hidden="true">
-      <defs>
-        <radialGradient id="shell" cx="38%" cy="30%" r="75%"><stop offset="0" stop-color="#6b6588"/><stop offset=".35" stop-color="#2e2945"/><stop offset=".8" stop-color="#14111f"/><stop offset="1" stop-color="#0a0910"/></radialGradient>
-        <radialGradient id="spec" cx="34%" cy="24%" r="40%"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-        <linearGradient id="fin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3454"/><stop offset="1" stop-color="#16131f"/></linearGradient>
-        <linearGradient id="iris" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fe7ff"/><stop offset="1" stop-color="#c8f53a"/></linearGradient>
-        <radialGradient id="pg"><stop offset="0" stop-color="#f4ffb0"/><stop offset=".5" stop-color="#c8f53a"/><stop offset="1" stop-color="#c8f53a" stop-opacity="0"/></radialGradient>
-      </defs>
-      <g class="fin finL"><path d="M-44 -22 C-58 -12 -58 12 -44 22 L-40 17 C-50 9 -50 -9 -40 -17 Z" fill="url(#fin)" stroke="#c8f53a66" stroke-width="1"/><circle cx="-51" cy="0" r="2" fill="#c8f53a"/></g>
-      <g class="fin finR"><path d="M44 -22 C58 -12 58 12 44 22 L40 17 C50 9 50 -9 40 -17 Z" fill="url(#fin)" stroke="#c8f53a66" stroke-width="1"/><circle cx="51" cy="0" r="2" fill="#c8f53a"/></g>
-      <circle r="40" fill="url(#shell)"/>
-      <ellipse class="seam" rx="40" ry="9" fill="none" stroke="#c8f53a" stroke-opacity=".35" stroke-width="1" stroke-dasharray="3 5"/>
-      <g class="lens" id="lens">
-        <circle r="18" fill="#06050a" stroke="#3b3555" stroke-width="3"/>
-        <circle r="13" fill="none" stroke="url(#iris)" stroke-width="2.4"/>
-        <g class="blades" fill="#1b1828" stroke="#2c2840" stroke-width=".6">
-          <path d="M0 -12 L6 -3 L0 0Z"/><path d="M10.4 -6 L5.2 3.5 L0 0Z"/><path d="M10.4 6 L-.4 6.5 L0 0Z"/>
-          <path d="M0 12 L-6 3 L0 0Z"/><path d="M-10.4 6 L-5.2 -3.5 L0 0Z"/><path d="M-10.4 -6 L.4 -6.5 L0 0Z"/>
-        </g>
-        <circle class="pupil" r="5.5" fill="url(#pg)"/>
-        <circle r="2.6" fill="#f6ffd0"/>
-        <circle cx="-6" cy="-7" r="2.2" fill="#fff" fill-opacity=".8"/>
-        <rect class="lid" x="-19" y="-19" width="38" height="38" rx="19" fill="#14111f"/>
-      </g>
-      <circle r="40" fill="url(#spec)" pointer-events="none"/>
-    </svg>
-    <div class="tag">МАЕСТРО</div>
+<section id="inside"><div class="wrap">
+  <h2>What's inside every kit</h2>
+  <p class="sub">Built for Unity 6 and TextMeshPro.</p>
+  <div class="feats">
+    <div class="feat"><h3>Ready prefabs</h3><p>Buttons, panels, tabs, toggles, sliders, popups and full screens you can drop into a scene.</p></div>
+    <div class="feat"><h3>9-sliced sprites</h3><p>High-resolution art with slicing already set up, so panels scale to any size without stretching.</p></div>
+    <div class="feat"><h3>Animated components</h3><p>Button presses, popups, tab switches, counters and reward reveals — scripts included.</p></div>
+    <div class="feat"><h3>Demo scenes</h3><p>Open a scene and click through the whole interface to see how everything fits together.</p></div>
+    <div class="feat"><h3>SVG sources</h3><p>Vector sources for every sprite, so you can recolor or adapt the art to your game.</p></div>
+    <div class="feat"><h3>Clear licensing</h3><p>Fonts and icons under open licenses, listed in a Third-Party Notices file.</p></div>
   </div>
-</div>
-<div id="bub" aria-live="polite"><div class="who">МАЕСТРО</div><div class="tx"></div></div>
+</div></section>
 
-<svg id="beam" aria-hidden="true"><defs><linearGradient id="bg" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fe7ff" stop-opacity=".55"/><stop offset="1" stop-color="#7fe7ff" stop-opacity=".05"/></linearGradient></defs><polygon id="beamP" fill="url(#bg)"/><line id="beamL1" stroke="#7fe7ff" stroke-opacity=".5"/><line id="beamL2" stroke="#7fe7ff" stroke-opacity=".5"/></svg>
+<section id="contact"><div class="wrap">
+  <div class="contact">
+    <div>
+      <h2>Contact</h2>
+      <p class="sub" style="margin:0">Questions about a kit, a custom style or a bug report? Write to us — we usually reply within a day or two.</p>
+    </div>
+    <div class="links">
+      <a href="mailto:vizu.craft.007@gmail.com">vizu.craft.007@gmail.com <span>Email</span></a>
+      <a href="https://www.youtube.com/@VizuCraft007" target="_blank" rel="noopener">@VizuCraft007 <span>YouTube</span></a>
+      <a href="https://github.com/vizucraft007-source" target="_blank" rel="noopener">vizucraft007-source <span>GitHub</span></a>
+    </div>
+  </div>
+</div></section>
+</main>
 
-<div id="holo" role="dialog" aria-modal="false" aria-label="Голограма з роботами">
-  <div class="hbar">
-    <span class="k" id="hk">БАНЕРИ · 01/12</span><span class="t" id="ht"></span><span class="sp"></span>
-    <span class="sizes"><button class="hbtn" data-sz="s" title="Мале вікно">S</button><button class="hbtn on" data-sz="m" title="Середнє вікно">M</button><button class="hbtn" data-sz="l" title="Велике вікно">L</button></span>
-    <button class="hbtn" id="hx" aria-label="Закрити голограму">✕</button>
-  </div>
-  <div class="stage" id="stage">
-    <canvas id="rain"></canvas>
-    <button class="nav2 p" id="hp" aria-label="Попередня робота">‹</button>
-    <button class="nav2 n" id="hn" aria-label="Наступна робота">›</button>
-    <button class="hbtn snd" id="snd">🔇 Увімкнути звук</button>
-  </div>
-  <div class="cap" id="hc"></div>
-  <div class="rail" id="hr"></div>
+<footer><div class="wrap">© 2026 VizuCraft. Unity is a trademark of Unity Technologies; VizuCraft is an independent publisher.</div></footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Kit screens">
+  <button class="x" aria-label="Close">×</button><button class="p" aria-label="Previous">‹</button><button class="n" aria-label="Next">›</button>
+  <img id="lbimg" alt=""><div class="cap" id="lbcap"></div>
 </div>
 
 <script>
-/* ================= DATA ================= */
-const M="media/";
-const W={
- banners:{k:"БАНЕРИ",items:[
-  ["image","ban-coffee-board","Кава Roast & Ritual — серія Meta Ads","Концепт: 5 креативів, сторіс і подача в стрічці"],
-  ["image","ban-coffee-1","Еспресо-суміш · 4:5","Ціна, знижка, бейджі, кнопка"],
-  ["image","ban-coffee-5","Кенія · сторіс 9:16","Новий лот у форматі сторіс"],
-  ["image","ban-obriy","OBRIY · кава","Банер для сайту й соцмереж"],
-  ["image","ban-norte","NORTE · одяг","Колекція осінь / зима"],
-  ["image","ban-pulsar","PULSAR · навушники","Предметна AI-зйомка"],
-  ["image","ban-sokovyk","SOKOVYK · сік","Яскравий банер новинки"],
-  ["image","ban-hvac-2","Тепловий насос · 4:5","Каталог кліматичної техніки"],
-  ["image","ban-hvac-5","Чилер · 4:5","Характеристики великими цифрами"],
-  ["image","ban-hvac-7","Осушувач · 4:5","Техніка в інтер'єрі"]]},
- video:{k:"ВІДЕО",items:[
-  ["video","hvac-beesmart","Тепловий насос · Reels","Серія для дистриб'ютора кліматичної техніки"],
-  ["video","hvac-mshac","Кондиціонер · Reels","AI-сцени, анімація тексту, монтаж"],
-  ["video","hvac-silver","Кондиціонер зі склом · Reels","Українська версія"],
-  ["video","hvac-r32","3D-пояснення · фреон R32","Як працює техніка — простими словами"],
-  ["video","ai-car","Оренда авто · AI-ролик","Тестовий ролик без зйомок"],
-  ["video","ai-mebli","Меблевий бренд · AI-ролик","Фактура, деталі, збірка"]]},
- motion:{k:"АНІМАЦІЯ",items:[
-  ["video","logo-cubes","3D-логотип з кубиків","Для сайту: WebGL або відео, приклад на умовному логотипі"],
-  ["video","logo-roast","Анімація логотипа · кав'ярня","Знак збирається з окремих елементів"],
-  ["video","logo-lumenvia","Анімація логотипа · eSIM-сервіс","Моушн для заставок і сайту"],
-  ["video","logo-vizucraft","Анімація логотипа · VizuCraft","Фірмова заставка студії"],
-  ["video","kids-potato","Мультфільм · пригоди картоплі","AI-анімація, озвучка, музика"],
-  ["video","kids-cats","Мультфільм · котики й тортики","Короткі серії для YouTube Shorts"]]},
- sites:{k:"САЙТИ",items:[
-  ["site","fizz","FIZZ — газованка з 3D-банкою","Банка відкривається на прокрутці, фонтан крапель, зміна смаків"],
-  ["site","bulk","Бульк! — смузі-бар з фізикою","Конструктор-блендер: фрукти можна кидати мишкою"],
-  ["site","taras","Taras Vey — сторінка як стрибок","Шкала висоти, купол на 1500 м, небо світлішає"],
-  ["site","kubit","Kubit — бекенд-студія","Запити злітаються в 3D-куб"],
-  ["site","kverta","Kverta — CRM-трекер","Чистий SaaS: воронка, анімовані ілюстрації, тарифи"]]},
- apps:{k:"ПРОГРАМИ",items:[
-  ["image","app-cake-light","Кабінет кондитерської · огляд","Замовлення, видачі, гроші, план на сьогодні"],
-  ["image","app-cake-dark","Календар видач · темна тема","Місяць і тиждень, виробництво окремим кольором"],
-  ["image","app-cake-mobile","Мобільна версія","Усе з телефона"],
-  ["image","app-parsing","Парсинг Rozetka · аналітика","131 товар, звіт в Excel, імпорт для Prom, YML-фід"]]},
- smm:{k:"SMM",items:[
-  ["image","smm-apex","Apex Anatomy — упаковка Instagram","Логотип, брендбук, аватар, хайлайти, сітка постів"]]},
- print:{k:"ДРУК",items:[
-  ["image","print-calendars","Квартальні календарі 2027","7 ніш, кілька колірних схем"],
-  ["image","print-art-cards","Візитки у 12 арт-стилях","Один характер — різні епохи й стилі"],
-  ["image","print-fun-cards","9 візиток, які запам'ятовують","Креативні концепти з гумором"],
-  ["image","ill-fox","Лисеня-астронавт","Акварельна ілюстрація для дитячої книги"],
-  ["image","ill-bridge","Світний міст між островами","Казкова ілюстрація"]]}
-};
-const thumbOf=(it)=> it[0]==="site"? M+"site-"+it[1]+".jpg" : M+it[1]+".jpg";
-
-/* ================= helpers ================= */
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
-const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), lerp=(a,b,t)=>a+(b-a)*t;
-const sst=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t)};
-const mobile=()=>innerWidth<860;
-
-/* thumbs in sections */
-$$("[data-thumbs]").forEach(el=>{const key=el.dataset.thumbs, it=W[key].items;
-  const n=Math.min(it.length, mobile()?4:4);
-  el.innerHTML=it.slice(0,it.length>4?3:4).map((x,i)=>`<button data-k="${key}" data-i="${i}" aria-label="${x[2]}"><img loading="lazy" src="${thumbOf(x)}" alt="">${x[0]==="video"?'<span class="pl"></span>':""}</button>`).join("")
-   +(it.length>4?`<button class="more" data-k="${key}" data-i="3">+${it.length-3}</button>`:"");
+const KITS=[
+ ["jelly","Jelly Pop","Casual puzzle"],
+ ["hearth","Hearth","Cozy farming"],
+ ["slate","Slate","Strategy"],
+ ["nova","Nova","Sci-fi space"],
+ ["rift","Rift","Roguelike"],
+ ["ironveil","Ironveil","Dark fantasy RPG"],
+ ["coinrush","Coinrush","Idle tycoon"],
+ ["starlit","Starlit","Anime gacha"],
+ ["rustline","Rustline","Survival"],
+ ["bitforge","Bitforge","Pixel retro"]
+];
+const g=document.getElementById("grid");
+KITS.forEach(([id,name,genre],i)=>{
+  const b=document.createElement("button");b.className="card";
+  b.innerHTML=`<img src="img/${id}-1.jpg" alt="${name} UI kit — main screen" loading="lazy"><div class="meta"><div><h3>${name}</h3><p>${genre}</p></div><span class="soon">Coming soon</span></div>`;
+  b.onclick=()=>open(i,1);g.appendChild(b);
 });
-document.addEventListener("click",e=>{const b=e.target.closest("[data-k]");if(b){openHolo(b.dataset.k,+b.dataset.i);}
-  const o=e.target.closest("[data-open]");if(o)openHolo(o.dataset.open,0);});
-
-/* sections & nav dots */
-const secs=$$("section");
-$("#dots").innerHTML=secs.map(s=>`<a href="#${s.id}" aria-label="${s.id}"></a>`).join("");
-const dotEls=$$("#dots a"), nav=$("#nav");
-
-/* ================= MAESTRO motion ================= */
-const m=$("#m"), lens=$("#lens"), bub=$("#bub"), bubTx=$("#bub .tx");
-let P={x:innerWidth*.74,y:innerHeight*.48}, V={x:0,y:0}, T={...P};
-let cur=0, lastY=scrollY, lastScrollT=performance.now(), mouse={x:innerWidth/2,y:innerHeight/2};
-let wander={x:0,y:0,until:0,next:performance.now()+6000}, flourish=null, holoKey=null;
-let centers=[];
-function measure(){centers=secs.map(s=>s.offsetTop+s.offsetHeight/2-innerHeight/2);}
-measure();addEventListener("resize",()=>{measure();placeHolo(true)});
-const dock=i=>{const d=secs[i].dataset.dock.split(",").map(Number);
-  if(mobile()) return {x:innerWidth*(d[0]>.5?.82:.18), y:innerHeight*.86};
-  return {x:innerWidth*d[0],y:innerHeight*d[1]};};
-
-function pathTarget(){
-  const y=scrollY; let i=0; while(i<centers.length-1 && y>=centers[i+1]) i++;
-  const j=Math.min(i+1,secs.length-1); const span=Math.max(1,centers[j]-centers[i]);
-  const t=j===i?0:clamp((y-centers[i])/span,0,1);
-  const u=sst(.22,.78,t);                         // park while reading, travel between
-  const A=dock(i), B=dock(j);
-  let x=lerp(A.x,B.x,u), y2=lerp(A.y,B.y,u);
-  const amp=(mobile()?.06:.16)*innerHeight*(i%2?1:-1);
-  y2+=Math.sin(Math.PI*u)*amp;                    // sine arc between sides
-  x+=Math.sin(Math.PI*u*2)*innerWidth*.04;        // S-curve
-  if(!RM && secs[j].dataset.loop && j!==i){       // little loop-de-loop
-    const w=sst(.38,.62,t), r=mobile()?34:70, a=w*Math.PI*2;
-    x+=Math.sin(a)*r*(A.x<B.x?1:-1); y2+=-(1-Math.cos(a))*r*.8;
-  }
-  const near = t<.18? i : t>.82? j : -1;
-  return {x,y:y2,near};
-}
-
-function tick(now){
-  let tg=pathTarget();
-  if(tg.near!==-1 && tg.near!==cur){cur=tg.near;onArrive(cur);}
-  dotEls.forEach((d,k)=>d.classList.toggle("on",k===cur));
-  const dk=secs[cur].classList.contains("dark"); nav.classList.toggle("dark",dk&&scrollY>40); nav.classList.toggle("solid",!dk&&scrollY>40);
-
-  // override when projecting
-  if(holoKey){const h=holoBox(); tg={x:h.mx,y:h.my};}
-  // idle wander — looks around like it's alive
-  if(!holoKey && !RM && now>wander.next && now-lastScrollT>2500){
-    wander={x:(Math.random()-.5)*(mobile()?60:150),y:(Math.random()-.5)*90,until:now+1400,next:now+5000+Math.random()*5000};
-  }
-  let wx=0,wy=0; if(now<wander.until){const k=Math.sin((1-(wander.until-now)/1400)*Math.PI);wx=wander.x*k;wy=wander.y*k;}
-  // flourish: quick orbit around its spot
-  let fx=0,fy=0; if(flourish){const p=(now-flourish.t0)/900; if(p>=1)flourish=null; else{const a=sst(0,1,p)*Math.PI*2;fx=Math.sin(a)*46*flourish.d;fy=-(1-Math.cos(a))*30;}}
-  T.x=tg.x+wx+fx; T.y=tg.y+wy+fy+Math.sin(now/650)*6;   // + hover bob
-
-  // spring (slightly underdamped => alive)
-  const k=RM?1:.075, d=RM?0:.80;
-  V.x=(V.x+(T.x-P.x)*k)*d; V.y=(V.y+(T.y-P.y)*k)*d;
-  P.x+=V.x; P.y+=V.y; if(RM){P.x=T.x;P.y=T.y;}
-  const tilt=clamp(V.x*1.4,-24,24), sq=clamp(Math.hypot(V.x,V.y)/40,0,.12);
-  const sc=mobile()?.66:1;
-  m.style.transform=`translate(${P.x}px,${P.y}px) rotate(${tilt}deg) scale(${sc*(1+sq)},${sc*(1-sq)})`;
-
-  // eye: look at hologram, else cursor, else direction of travel
-  let lx,ly; if(holoKey){const h=holoBox();lx=h.cx-P.x;ly=h.cy-P.y;} else {lx=mouse.x-P.x+V.x*30;ly=mouse.y-P.y+V.y*30;}
-  const L=Math.hypot(lx,ly)||1, r=Math.min(1,L/300);
-  lens.setAttribute("transform",`translate(${lx/L*9*r} ${ly/L*7*r})`);
-
-  placeBubble(); if(holoKey) drawBeam();
-  if(scrollY!==lastY){lastY=scrollY;lastScrollT=now; if(holoKey && autoOpened && Math.abs(scrollY-openedAtY)>innerHeight*.35) closeHolo();}
-  if(holoKey && cur!==holoSec) closeHolo();
-  checkIdleOpen(now);
-  requestAnimationFrame(tick);
-}
-addEventListener("pointermove",e=>{mouse.x=e.clientX;mouse.y=e.clientY},{passive:true});
-
-/* blink */
-(function blink(){setTimeout(()=>{m.classList.add("blink");setTimeout(()=>m.classList.remove("blink"),130);blink()},2600+Math.random()*3500)})();
-
-/* ================= speech bubble ================= */
-let bubUntil=0, said=new Set(), typer=null;
-const GLY="01アイウエオカキクケコ#%&*+=<>/\\";
-function say(text,ms=4200){
-  if(holoKey&&mobile())return; clearInterval(typer); bub.classList.add("on"); m.classList.add("talk"); bubUntil=performance.now()+ms+text.length*22;
-  let n=0; typer=setInterval(()=>{n+=2; const done=text.slice(0,n);
-    const tail=n<text.length? [...Array(Math.min(4,text.length-n))].map(()=>GLY[Math.random()*GLY.length|0]).join(""):"";
-    bubTx.textContent=done+tail; if(n>=text.length){clearInterval(typer);bubTx.textContent=text;}},RM?0:22);
-}
-function placeBubble(){
-  const now=performance.now();
-  if(bub.classList.contains("on") && (now>bubUntil || (holoKey && now-holoT>700))){bub.classList.remove("on"); if(!holoKey)m.classList.remove("talk");}
-  if(!bub.classList.contains("on"))return;
-  const w=bub.offsetWidth,h=bub.offsetHeight, right=P.x>innerWidth/2;
-  let x=right? P.x-w-56 : P.x+56, y=P.y-h-34;
-  x=clamp(x,10,innerWidth-w-10); y=clamp(y,74,innerHeight-h-10);
-  bub.style.transform=`translate(${x}px,${y}px)`; bub.style.left="0";bub.style.top="0";
-}
-function onArrive(i){
-  const s=secs[i]; if(!said.has(i)){said.add(i);setTimeout(()=>say(s.dataset.say),RM?0:450);}
-  if(!RM && i>0 && Math.random()<.65) flourish={t0:performance.now()+200,d:Math.random()<.5?1:-1};
-}
-
-/* ================= HOLOGRAM ================= */
-const holo=$("#holo"), stage=$("#stage"), rail=$("#hr"), beam=$("#beam"), rain=$("#rain");
-let holoSec=0, holoT=0, hi=0, size="m", autoOpened=false, openedAtY=0, opened=new Set();
-function holoBox(){
-  const r=holo.getBoundingClientRect(), mob=mobile();
-  const right = (holo._side||"right")==="right";
-  // Maestro sits beside the panel, toward the edge
-  const mx = mob? innerWidth*.84 : (right? r.left-70 : r.right+70);
-  const my = mob? r.top-58 : r.top+r.height*.42;
-  return {mx,my,cx:r.left+r.width/2,cy:r.top+r.height/2,r};
-}
-function dims(){
-  const mob=mobile(), site=holo.classList.contains("site");
-  if(mob) return {w:innerWidth-16,h:Math.min(innerHeight*.66,640)};
-  const H=innerHeight-215;
-  if(site){ if(size==="s") return {w:420,h:Math.min(720,H)};
-            if(size==="l") return {w:Math.min(1300,innerWidth-72),h:H};
-            return {w:Math.min(940,innerWidth*.62),h:Math.min(680,H)}; }
-  const it=W[holoKey].items[hi]; const portrait=["video"].includes(it[0])&&!it[1].startsWith("logo")||it[1].includes("mobile")||/coffee-[125]|hvac/.test(it[1]);
-  return portrait? {w:Math.min(520,innerWidth*.4),h:Math.min(760,H)} : {w:Math.min(860,innerWidth*.56),h:Math.min(620,H)};
-}
-function placeHolo(instant){
-  if(!holoKey)return; const {w,h}=dims(), mob=mobile();
-  const side = dock(cur).x>innerWidth/2 ? "right":"left";      // panel goes where Maestro docks
-  holo._side=side; let x,y;
-  if(mob){x=8;y=innerHeight-h-8; holo.style.setProperty("--ox","50% 0%");}
-  else { x = side==="right"? innerWidth-w-36 : 36; y=Math.max(190,(innerHeight-h)/2+50);
-         holo.style.setProperty("--ox", side==="right"?"0% 0%":"100% 0%"); }
-  holo.style.width=w+"px";holo.style.height=h+"px";holo.style.left=x+"px";holo.style.top=y+"px";
-}
-function drawBeam(){
-  const r=holo.getBoundingClientRect(), right=holo._side==="right", mob=mobile();
-  let x1,x2; if(mob){x1=r.left+r.width*.45;x2=r.right-24;} else if(right){x1=r.left+16;x2=r.left+r.width*.5;} else {x1=r.right-r.width*.5;x2=r.right-16;}
-  const o=[P.x,P.y+(mob?16:26)], pts=[o,[x1,r.top+2],[x2,r.top+2]];
-  $("#beamP").setAttribute("points",pts.map(p=>p.join(",")).join(" "));
-  const g=$("#bg"); g.setAttribute("x1",o[0]);g.setAttribute("y1",o[1]);g.setAttribute("x2",o[0]);g.setAttribute("y2",r.top);
-  [["#beamL1",1],["#beamL2",2]].forEach(([id,k])=>{const l=$(id);l.setAttribute("x1",o[0]);l.setAttribute("y1",o[1]);l.setAttribute("x2",pts[k][0]);l.setAttribute("y2",pts[k][1]);});
-}
-holoBox=function(){const r=holo.getBoundingClientRect(),mob=mobile(),right=holo._side==="right";
-  const mx= mob? innerWidth*.84 : (right? r.left+r.width*.25 : r.right-r.width*.25);
-  return {mx, my: r.top-(mob?50:72), cx:r.left+r.width/2, cy:r.top+r.height/2, r};};
-
-function openHolo(key,i=0,auto=false){
-  const was=holoKey; holoKey=key; if(!was)holoT=performance.now(); holoSec=cur; hi=clamp(i,0,W[key].items.length-1); autoOpened=auto; openedAtY=scrollY; opened.add(key);
-  holo.classList.toggle("site",W[key].items[hi][0]==="site");
-  rail.innerHTML=W[key].items.map((it,k)=>`<button data-h="${k}" aria-label="${it[2]}"><img src="${thumbOf(it)}" alt=""></button>`).join("");
-  placeHolo(); m.classList.add("project","talk"); beam.classList.add("on"); bubUntil=Math.min(bubUntil,performance.now()+700);
-  if(!was){holo.classList.remove("on");void holo.offsetWidth;holo.classList.add("on","flick");setTimeout(()=>holo.classList.remove("flick"),520);
-    if(!RM) flourish={t0:performance.now(),d:holo._side==="left"?-1:1};}
-  show(hi,true);
-}
-function closeHolo(){
-  if(!holoKey)return; holoKey=null; holo.classList.remove("on"); beam.classList.remove("on"); m.classList.remove("project","talk");
-  stage.querySelectorAll("video,iframe,img,.bg").forEach(e=>e.remove());
-}
-function show(k,big){
-  const items=W[holoKey].items; hi=(k+items.length)%items.length; const it=items[hi];
-  const isSite=it[0]==="site"; holo.classList.toggle("site",isSite); holo.classList.toggle("vid",it[0]==="video");
-  placeHolo();
-  $("#hk").textContent=`${W[holoKey].k} · ${String(hi+1).padStart(2,"0")}/${String(items.length).padStart(2,"0")}`;
-  $("#ht").textContent=it[2]; $("#hc").textContent=it[3];
-  rail.querySelectorAll("button").forEach((b,j)=>b.classList.toggle("on",j===hi));
-  rail.querySelector(".on")?.scrollIntoView({block:"nearest",inline:"center"});
-  stage.querySelectorAll("video,iframe,img,.bg").forEach(e=>e.remove());
-  let el;
-  if(it[0]==="image"){el=document.createElement("img");el.src=M+it[1]+".jpg";el.alt=it[2];
-    const bg=document.createElement("div");bg.className="bg";bg.style.backgroundImage=`url(${M+it[1]}.jpg)`;stage.prepend(bg);}
-  else if(it[0]==="video"){el=document.createElement("video");el.src=M+it[1]+".mp4";el.poster=M+it[1]+".jpg";el.muted=!soundOn;el.loop=true;el.playsInline=true;el.controls=true;el.autoplay=true;
-    const bg=document.createElement("div");bg.className="bg";bg.style.backgroundImage=`url(${M+it[1]}.jpg)`;stage.prepend(bg);
-    setTimeout(()=>el.play().catch(()=>{}),RM?0:500); $("#snd").textContent=soundOn?"🔊 Звук увімкнено":"🔇 Увімкнути звук";}
-  else {el=document.createElement("iframe");el.src="sites/"+it[1]+"/index.html";el.title=it[2];el.loading="lazy";}
-  stage.insertBefore(el,rain);
-  digitalRain(big?900:420);
-}
-let soundOn=false;
-$("#snd").onclick=()=>{soundOn=!soundOn;const v=stage.querySelector("video");if(v){v.muted=!soundOn;v.play().catch(()=>{});}$("#snd").textContent=soundOn?"🔊 Звук увімкнено":"🔇 Увімкнути звук";};
-$("#hp").onclick=()=>show(hi-1);$("#hn").onclick=()=>show(hi+1);$("#hx").onclick=closeHolo;
-rail.addEventListener("click",e=>{const b=e.target.closest("[data-h]");if(b)show(+b.dataset.h)});
-$$("[data-sz]").forEach(b=>b.onclick=()=>{size=b.dataset.sz;$$("[data-sz]").forEach(x=>x.classList.toggle("on",x===b));placeHolo();setTimeout(drawBeam,460)});
-addEventListener("keydown",e=>{if(!holoKey)return;if(e.key==="Escape")closeHolo();if(e.key==="ArrowRight"&&!holo.classList.contains("site"))show(hi+1);if(e.key==="ArrowLeft"&&!holo.classList.contains("site"))show(hi-1);});
-m.addEventListener("click",()=>{const key=secs[cur].querySelector("[data-open]")?.dataset.open; if(holoKey)closeHolo(); else if(key)openHolo(key,0); else say(secs[cur].dataset.say);});
-m.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();m.click();}});
-
-/* auto-open when the visitor stops on a section */
-function checkIdleOpen(now){
-  if(holoKey||RM)return; if(now-lastScrollT<1100)return;
-  const s=secs[cur], key=s.querySelector("[data-open]")?.dataset.open; if(!key||opened.has(key))return;
-  if(Math.abs(scrollY-centers[cur])>innerHeight*.22)return;
-  openHolo(key,0,true);
-}
-
-/* digital rain — hologram "materialises" out of falling symbols */
-function digitalRain(ms){
-  if(RM)return; const c=rain, r=c.getBoundingClientRect(); const dpr=Math.min(2,devicePixelRatio||1);
-  c.width=r.width*dpr;c.height=r.height*dpr; const g=c.getContext("2d"); g.scale(dpr,dpr);
-  const fs=14, cols=Math.ceil(r.width/fs), drops=[...Array(cols)].map(()=>Math.random()*-20);
-  const t0=performance.now(); c.style.opacity=1;
-  (function f(now){const p=(now-t0)/ms; if(p>1){g.clearRect(0,0,r.width,r.height);return;}
-    g.fillStyle=`rgba(7,6,12,${p<.45?.35:.18})`; g.fillRect(0,0,r.width,r.height);
-    if(p>.45){g.save();g.globalCompositeOperation="destination-out";g.fillStyle=`rgba(0,0,0,${(p-.45)*.5})`;g.fillRect(0,0,r.width,r.height);g.restore();}
-    g.font=`${fs}px JetBrains Mono, monospace`;
-    for(let i=0;i<cols;i++){const ch=GLY[Math.random()*GLY.length|0], y=drops[i]*fs;
-      g.fillStyle=Math.random()<.08?"#f4ffb0":(i%3?"#7fe7ffcc":"#c8f53acc"); g.fillText(ch,i*fs,y);
-      drops[i]+= .9+Math.random()*.8; if(y>r.height&&Math.random()>.9)drops[i]=0;}
-    requestAnimationFrame(f);})(t0);
-}
-
-/* greet on load */
-setTimeout(()=>{if(cur===0){said.add(0);say(secs[0].dataset.say,5200);}},900);
-requestAnimationFrame(tick);
+const lb=document.getElementById("lb"),im=document.getElementById("lbimg"),cap=document.getElementById("lbcap");
+let k=0,s=1;
+function show(){const[id,name]=KITS[k];im.src=`img/${id}-${s}.jpg`;im.alt=`${name} — screen ${s}`;cap.textContent=`${name} · ${s} / 3`}
+function open(i,j){k=i;s=j;show();lb.classList.add("on")}
+function step(d){s+=d;if(s>3){s=1;k=(k+1)%KITS.length}if(s<1){s=3;k=(k-1+KITS.length)%KITS.length}show()}
+lb.querySelector(".x").onclick=()=>lb.classList.remove("on");
+lb.querySelector(".p").onclick=()=>step(-1);
+lb.querySelector(".n").onclick=()=>step(1);
+lb.onclick=e=>{if(e.target===lb)lb.classList.remove("on")};
+addEventListener("keydown",e=>{if(!lb.classList.contains("on"))return;if(e.key==="Escape")lb.classList.remove("on");if(e.key==="ArrowRight")step(1);if(e.key==="ArrowLeft")step(-1)});
 </script>
 </body>
 </html>
